@@ -1,13 +1,12 @@
 import { useUser } from "../../context/UserCtx";
 import useForm from "../../hooks/useForm";
-import { getProfile } from "../../services/profiles";
 
 
 function ProfileForm({onSubmit}) {
   const { user } = useUser();
   const {formState, handleFormChange, formError, setFormError} = useForm({
-    name: '',
     email: user.email,
+    name: '',
     bio: '',
     birthday: '',
   });
@@ -15,6 +14,9 @@ function ProfileForm({onSubmit}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {name, email, bio, birthday} = formState;
+    if(!email || !name || !bio || !birthday) {
+      throw new Error('Please complete form')
+    }
     try {
       await onSubmit(name, email, bio, birthday);
     } catch (err) {
@@ -29,6 +31,7 @@ function ProfileForm({onSubmit}) {
     <>
       <form onSubmit={handleSubmit}>
         <h3>{user.email}</h3>
+        {/* <input name='email' value={formState.email} /> */}
         <label htmlFor="name">Name:</label>
         <input 
           id='name'

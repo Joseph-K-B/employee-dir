@@ -6,7 +6,6 @@ function AuthForm({ onSubmit }) {
     email: '',
     password: ''
   });
-  let registerRequired;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

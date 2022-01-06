@@ -5,6 +5,7 @@ import Profile from "./views/Profile/Profile";
 import { UserProvider } from "./context/UserCtx";
 import ConfirmEmail from "./views/Auth/Confirm";
 import ProfileSettings from "./views/Settings/ProfileSettings";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
     <UserProvider>
       <Router>
         <Header />
-        <Switch>
+        <main>
+          <Switch>
             <Route exact path= '/'>
             <h1>Hello World</h1>
             </Route>
@@ -26,13 +28,14 @@ export default function App() {
             <ConfirmEmail />
             </Route>
             //protected
-            <Route path='/settings'>
+            <PrivateRoute path='/settings'>
               <ProfileSettings />
-            </Route>
-            <Route path='/profile'>
+            </PrivateRoute>
+            <PrivateRoute path='/profile'>
               <Profile />
-            </Route>
-        </Switch>
+            </PrivateRoute>
+          </Switch>
+        </main>
       </Router>
     </UserProvider>
     </>

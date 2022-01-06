@@ -1,17 +1,17 @@
 import { useHistory } from "react-router-dom";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import { useUser } from "../../context/UserCtx";
-import { createProfile, updateProfile } from "../../services/profiles";
+import { createProfile, getProfile, updateProfile } from "../../services/profiles";
 
 
 function ProfileSettings() {
   const history = useHistory();
   const { user, setUser } = useUser();
 
-  const handleSubmit = async (name, email, bio, birthday) => {
+  const handleSubmit = async (name, bio, birthday) => {
     try {
       if(!user.name) {
-        // const email = user.email
+        const email = user.email
         console.log(user.email);
         const user = await createProfile(name, email, bio, birthday);
         setUser({id: user.id, name, email: user.email, birthday, bio})        
@@ -28,7 +28,8 @@ function ProfileSettings() {
     <>
       <h1>{user.name ? 'Edit Profile' : 'Create Profile'}</h1>
       <ProfileForm onSubmit={handleSubmit} />
-      <button onClick={() => console.log(user.email)}>Tester</button>
+      <button onClick={() => console.log(user)}>Test 1</button>
+      <button onClick={() => console.log(getProfile())}>Test 2</button>
     </>
   )
 }
