@@ -11,12 +11,11 @@ function ProfileSettings() {
   const handleSubmit = async (name, email, bio, birthday) => {
     try {
       if(!user.name) {
-        // const email = user.email
-        console.log(user.email);
         createProfile(name, email, bio, birthday);
         setUser({id: user.id, name, email, birthday, bio})        
-      } else {
-        updateProfile(name, birthday, bio);
+      } else {        
+        updateProfile(name, email, birthday, bio);
+        setUser({id: user.id, name, email: user.email, birthday, bio})
       }
       history.replace('/profile');
     } catch(err) {
@@ -28,8 +27,6 @@ function ProfileSettings() {
     <>
       <h1>{user.name ? 'Edit Profile' : 'Create Profile'}</h1>
       <ProfileForm onSubmit={handleSubmit} />
-      <button onClick={() => console.log(user)}>Test 1</button>
-      <button onClick={() => console.log(getProfile())}>Test 2</button>
     </>
   )
 }
