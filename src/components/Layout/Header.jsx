@@ -11,7 +11,7 @@ function Header() {
       <h1>Acme Inc</h1>
       </div>
       <section>
-        {user.id ? 
+        {user ? (
         <>
           <h4>You are signed in as {user.email}</h4>
           <nav>
@@ -19,15 +19,15 @@ function Header() {
           <NavLink to='/settings'>Settings</NavLink> 
           <NavLink to='/' onClick={async () => {await signOutUser(); setUser(null)}}>Log Out</NavLink>
           </nav>
-        </> 
+        </> )
           :
-        <>
+       ( <>
           <h4>Register or log in</h4>
           <nav>
           <NavLink to='/register'>Sign up</NavLink>
           <NavLink to='/login'>Log in</NavLink>
           </nav>
-        </> }
+        </>) }
       </section>
     </header>
   )

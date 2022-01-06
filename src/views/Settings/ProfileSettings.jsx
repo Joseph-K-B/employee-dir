@@ -8,12 +8,12 @@ function ProfileSettings() {
   const history = useHistory();
   const { user, setUser } = useUser();
 
-  const handleSubmit = async (name, bio, birthday) => {
+  const handleSubmit = async (name, email, bio, birthday) => {
     try {
       if(!user.name) {
-        const email = user.email
+        // const email = user.email
         console.log(user.email);
-        const user = await createProfile(name, email, bio, birthday);
+        const user = await createProfile({name, email, bio, birthday});
         setUser({id: user.id, name, email: user.email, birthday, bio})        
       } else {
         updateProfile(name, birthday, bio);
