@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import { useUser } from "../../context/UserCtx";
 import { createProfile, getProfile, updateProfile } from "../../services/profiles";
@@ -7,6 +8,7 @@ import { createProfile, getProfile, updateProfile } from "../../services/profile
 function ProfileSettings() {
   const history = useHistory();
   const { user, setUser } = useUser();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (name, email, bio, birthday) => {
     try {
@@ -14,8 +16,9 @@ function ProfileSettings() {
         createProfile(name, email, bio, birthday);
         setUser({id: user.id, name, email, birthday, bio})        
       } else {        
-        updateProfile(name, email, birthday, bio);
+        updateProfile(name, email, bio, birthday);
         setUser({id: user.id, name, email: user.email, birthday, bio})
+        setLoading(true)
       }
       history.replace('/profile');
     } catch(err) {
@@ -24,6 +27,7 @@ function ProfileSettings() {
   };  
 
   return(
+    loading ? <h1>Loading</h1> :
     <>
       <h1>{user.name ? 'Edit Profile' : 'Create Profile'}</h1>
       <ProfileForm onSubmit={handleSubmit} />

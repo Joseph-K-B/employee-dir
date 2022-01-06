@@ -46,35 +46,41 @@ function ProfileForm({onSubmit}) {
       className={isActive ? css.show : css.hide}
     />
   
-console.log(isActive)
+// console.log(isActive)
   return(
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={css.profForm}>
         <h3>{user.email}</h3>
-        <label htmlFor="name">Name:</label>
-        <input 
-          id='name'
-          name="name"
-          value={formState.name}
-          onChange={handleFormChange}
-          placeholder={user.name ? `${user.name}` : null}
+        <section className={css.profFormSect}>
+          <label htmlFor="name">Name:</label>
+          <input 
+            id='name'
+            name="name"
+            value={formState.name}
+            onChange={handleFormChange}
+            placeholder={user.name ? `${user.name}` : null}
+            />
+        </section>
+        <section className={css.profFormSect}>
+          <label htmlFor="DOB">D.O.B:</label>
+          {user.name ?
+          <>              
+            <p onClick={handleToggle}>*{user.birthday}*</p>
+            {displayDOBInput}
+          </>
+          : isActive === true && {displayDOBInput}        
+          }
+        </section>
+        <section className={css.profFormSect}>
+          <label htmlFor="bio">Bio:</label>
+          <textarea 
+            id='bio'
+            name="bio"
+            value={formState.bio}
+            onChange={handleFormChange}
+            placeholder={user.name ? `${user.bio}` : null}
           />
-        <label htmlFor="DOB">D.O.B:</label>
-        {user.name ?
-        <>              
-          <p onClick={handleToggle}>*{user.birthday}*</p>
-          {displayDOBInput}
-        </>
-        : isActive === true && displayDOBInput        
-        }
-        <label htmlFor="bio">Bio:</label>
-        <textarea 
-          id='bio'
-          name="bio"
-          value={formState.bio}
-          onChange={handleFormChange}
-          placeholder={user.name ? `${user.bio}` : null}
-        />
+        </section>
         <button type='submit'>{user.name ? 'Edit' : 'Create'}</button>
         {formError && <p>{formError}</p>}
       </form>
