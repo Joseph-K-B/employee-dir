@@ -1,20 +1,58 @@
 import { useUser } from "../../context/UserCtx";
+import useForm from "../../hooks/useForm";
+import { getProfile } from "../../services/profiles";
 
 
-function ProfileForm() {
+function ProfileForm({onSubmit}) {
   const { user } = useUser();
+  const {formState, handleFormChange, formError, setFormError} = useForm({
+    name: '',
+    email: user.email,
+    bio: '',
+    birthday: '',
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const {name, email, bio, birthday} = formState;
+    try {
+      await onSubmit(name, email, bio, birthday);
+    } catch (err) {
+      setFormError(err.message);
+    }
+  }
+
+  console.log(formState);
+  // console.log(getProfile())
+
   return(
     <>
-      <h1>{user.name ? 'Edit Profile' : 'Create Profile'}</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h3>{user.email}</h3>
         <label htmlFor="name">Name:</label>
-        <input id='name'/>
+        <input 
+          id='name'
+          name="name"
+          value={formState.name}
+          onChange={handleFormChange}
+        />
         <label htmlFor="DOB">D.O.B:</label>
-        <input id = 'DOB' type='date'/>
+        <input 
+          id = 'DOB' 
+          type='date'
+          name="birthday"
+          value={formState.birthday}
+          onChange={handleFormChange}
+        />
         <label htmlFor="bio">Bio:</label>
-        <textarea id='bio'/>
-        <button>{user.name ? 'Edit' : 'Create'}</button>
+        <textarea 
+          id='bio'
+          name="bio"
+          value={formState.bio}
+          onChange={handleFormChange}
+        />
+        <button type='submit'>{user.name ? 'Edit' : 'Create'}</button>
+        {formError && <p>{formError}</p>}
       </form>
     </>
   )

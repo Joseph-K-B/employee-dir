@@ -1,10 +1,10 @@
 import Header from "./components/Layout/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "./views/Auth/Auth";
-import ProfileForm from "./components/ProfileForm/ProfileForm";
 import Profile from "./views/Profile/Profile";
 import { UserProvider } from "./context/UserCtx";
 import ConfirmEmail from "./views/Auth/Confirm";
+import ProfileSettings from "./views/Settings/ProfileSettings";
 
 export default function App() {
   return (
@@ -27,7 +27,7 @@ export default function App() {
             </Route>
             //protected
             <Route path='/settings'>
-              <ProfileForm />
+              <ProfileSettings />
             </Route>
             <Route path='/profile'>
               <Profile />

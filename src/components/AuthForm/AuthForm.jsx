@@ -1,11 +1,12 @@
 import useForm from "../../hooks/useForm";
 
-function AuthForm({ registerRequired = false, onSubmit }) {
+function AuthForm({ onSubmit }) {
   //Define params/args for use form hook
   const {formState, handleFormChange, formError, setFormError} = useForm({
     email: '',
     password: ''
   });
+  let registerRequired;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,8 +17,8 @@ function AuthForm({ registerRequired = false, onSubmit }) {
         throw new Error('Please enter valid email and password greater than 8 characters'
         );
         await onSubmit(email, password);
-    } catch (error) {
-      setFormError(error.message)
+    } catch (err) {
+      setFormError(err.message);
     }
   };
   // const register = false
@@ -41,9 +42,7 @@ function AuthForm({ registerRequired = false, onSubmit }) {
           value={formState.password} 
           onChange={handleFormChange}/>
       </section>
-      <button type='submit'>
-        {registerRequired ? 'Sign in' : 'Sign up' || loading && 'Processing'}
-      </button>
+      <button type='submit'>Submit</button>
       {formError && <p>{formError}</p>}
     </form>
   );

@@ -5,7 +5,6 @@ import { signInUser, signUpUser } from "../../services/users";
 
 
 function Auth({ registerRequired = false }) {
-  console.log(registerRequired)
   const history = useHistory();
   const { user, setUser } = useUser();
   
@@ -24,7 +23,7 @@ function Auth({ registerRequired = false }) {
     }
   };
 
-  console.log(user)
+  console.log(registerRequired)
   return (
     <>
     <h1>{registerRequired ? 'Sign up' : 'Log in'}</h1>
