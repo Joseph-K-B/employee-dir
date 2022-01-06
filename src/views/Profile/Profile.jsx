@@ -1,14 +1,10 @@
 
 import { Link } from "react-router-dom";
+import { useUser } from "../../context/UserCtx";
 
-const user = {
-  email: 'izzie@dog.com',
-  name: 'Izzie',
-  DOB: '0/6/2015',
-  bio: 'Izzie loves bones, long walks on the beach, and chasing squirrels'
-}
 
 function Profile() {
+  const { user } = useUser();
   return (
     <>
     <section>

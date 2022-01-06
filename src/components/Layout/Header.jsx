@@ -1,10 +1,9 @@
-import { useReducer } from "react";
 import { NavLink } from "react-router-dom";
+import { useUser } from "../../context/UserCtx";
 import css from './Header.css';
 
 function Header() {
-  const user = {email: 'izzie@dog.com'}
-  // const user = false
+  const { user, setUser } = useUser();
   return (
     <header>
       <div>
@@ -17,7 +16,7 @@ function Header() {
           <nav>
           <NavLink to='/profile'>Profile</NavLink> 
           <NavLink to='/settings'>Settings</NavLink> 
-          <NavLink to='/'>Log Out</NavLink>
+          <NavLink to='/' onClick={() => setUser(null)}>Log Out</NavLink>
           </nav>
         </> 
           :

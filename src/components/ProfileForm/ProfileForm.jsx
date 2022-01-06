@@ -1,7 +1,8 @@
+import { useUser } from "../../context/UserCtx";
 
 
 function ProfileForm() {
-  const user = {email: 'izzie@dog.com'}
+  const { user } = useUser();
   return(
     <>
       <h1>{user.name ? 'Edit Profile' : 'Create Profile'}</h1>
