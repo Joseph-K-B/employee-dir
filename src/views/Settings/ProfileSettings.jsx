@@ -13,8 +13,8 @@ function ProfileSettings() {
       if(!user.name) {
         // const email = user.email
         console.log(user.email);
-        const user = await createProfile({name, email, bio, birthday});
-        setUser({id: user.id, name, email: user.email, birthday, bio})        
+        createProfile(name, email, bio, birthday);
+        setUser({id: user.id, name, email, birthday, bio})        
       } else {
         updateProfile(name, birthday, bio);
       }

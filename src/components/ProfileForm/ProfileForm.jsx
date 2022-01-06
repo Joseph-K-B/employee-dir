@@ -1,5 +1,6 @@
 import { useUser } from "../../context/UserCtx";
 import useForm from "../../hooks/useForm";
+import { getProfile } from "../../services/profiles";
 
 
 function ProfileForm({onSubmit}) {
@@ -13,20 +14,20 @@ function ProfileForm({onSubmit}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {name, bio, birthday} = formState;
+    // const {name, email, bio, birthday} = formState;
     // if(!email || !name || !bio || !birthday) {
     //   throw new Error('Please complete form')
     // }
     try {
-      await onSubmit(name, user.email, bio, birthday);
-      console.log(email)
+      // await onSubmit(name, email, bio, birthday);
+      await onSubmit(formState);
     } catch (err) {
       setFormError(err.message);
     }
   }
 
-  console.log(formState);
-  // console.log(getProfile())
+  // console.log(formState);
+  // console.log(getProfile().then((value) => value))
 
   return(
     <>
