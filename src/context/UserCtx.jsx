@@ -6,7 +6,7 @@ const UserCtx = createContext();
 function UserProvider({ children }) {
   const activeUser = getUser();
   const [user, setUser] = useState(
-    activeUser ? {id: activeUser.id, email: activeUser.email} : {}
+    activeUser ? {id: activeUser.id, email: activeUser.email,} : {}
   );
 
   return <UserCtx.Provider value={{user, setUser}}>{children}</UserCtx.Provider>

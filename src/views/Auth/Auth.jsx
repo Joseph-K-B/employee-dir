@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { useUser } from "../../context/UserCtx";
-import { signInUser, signUpUser } from "../../services/users";
+import { getUser, signInUser, signUpUser } from "../../services/users";
 import { getProfile } from '../../services/profiles'
-
+import { useProfile } from "../../context/ProfileCtx";
 
 function Auth({ registerRequired = false }) {
   const history = useHistory();
   const { user, setUser } = useUser();
+  // const {profile, setProfile} = useProfile();
 
  
   const handleSubmit = async (email, password) => {
@@ -18,17 +19,17 @@ function Auth({ registerRequired = false }) {
         history.replace('/confirm-email');
       } else {
         const user = await signInUser(email, password);
-        setUser({id: user.id, email});
+        await setUser({id: user.id, email});
         const profile = await getProfile();
-        console.log(profile)
-        profile.name ? history.push('/profile') : history.push('/settings');
+        await setUser(profile);
+        user.name ? history.push('/profile') : history.push('/create')
+        console.log(getProfile())
       }
     } catch(err) {
       throw err;
     }
-  };
-
-  console.log(registerRequired)
+    };
+    
   return (
     <>
     <h1>{registerRequired ? 'Sign up' : 'Log in'}</h1>

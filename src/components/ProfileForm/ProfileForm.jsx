@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useProfile } from "../../context/ProfileCtx";
 import { useUser } from "../../context/UserCtx";
 import useForm from "../../hooks/useForm";
 import { getProfile } from "../../services/profiles";
@@ -7,22 +10,18 @@ import css from './ProfileForm.css';
 
 function ProfileForm({onSubmit}) {
   const [isActive, setActive] = useState(false);
+  const [create, setCreate] = useState(true);
+  const location = useLocation();
+  const history = useHistory();
   const { user, setUser } = useUser();
+  // const { profile, setProfile } = useProfile();
   const {formState, handleFormChange, formError, setFormError} = useForm({
     name: '',
     email: user.email,
     bio: '',
     birthday: '',
   });
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const userProfile = await getProfile();
-      setUser(userProfile);
-    }
-    fetchProfile()
-   }, []);
-
+          
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,22 +30,21 @@ function ProfileForm({onSubmit}) {
       setFormError(err.message);
     }
   };
-
+  
   const handleToggle = () => {
     setActive(!isActive);
   };
-
-  const displayDOBInput =
-    <input
-      id='DOB'
-      type='date'
-      name="birthday"
-      value={formState.birthday}
-      onChange={handleFormChange}
-      className={isActive ? css.show : css.hide}
-    />
   
-// console.log(isActive)
+  const displayDOBInput =
+  <input
+  id='DOB'
+  type='date'
+  name="birthday"
+  value={formState.birthday}
+  onChange={handleFormChange}
+  className={isActive ? css.show : css.hide}
+  />         
+  
   return(
     <>
       <form onSubmit={handleSubmit} className={css.profForm}>
@@ -63,12 +61,12 @@ function ProfileForm({onSubmit}) {
         </section>
         <section className={css.profFormSect}>
           <label htmlFor="DOB">D.O.B:</label>
-          {user.name ?
+          {!create ?
           <>              
             <p onClick={handleToggle}>*{user.birthday}*</p>
             {displayDOBInput}
           </>
-          : isActive === true && {displayDOBInput}        
+          : <> {displayDOBInput} </>
           }
         </section>
         <section className={css.profFormSect}>
@@ -84,8 +82,10 @@ function ProfileForm({onSubmit}) {
         <button type='submit'>{user.name ? 'Edit' : 'Create'}</button>
         {formError && <p>{formError}</p>}
       </form>
-    </>
+      {/* <button onClick={() => console.log('CLICK ON PROF FORM', user, profile)}>Test</button> */}
+  </>
   )
 }
+
 
 export default ProfileForm;

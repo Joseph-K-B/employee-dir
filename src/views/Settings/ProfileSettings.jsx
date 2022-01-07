@@ -5,7 +5,7 @@ import { useUser } from "../../context/UserCtx";
 import { createProfile, getProfile, updateProfile } from "../../services/profiles";
 
 
-function ProfileSettings() {
+function ProfileSettings({createRequired = false}) {
   const history = useHistory();
   const { user, setUser } = useUser();
   const [loading, setLoading] = useState(false);
