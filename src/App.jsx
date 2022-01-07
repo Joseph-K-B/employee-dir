@@ -2,24 +2,24 @@ import Header from "./components/Layout/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "./views/Auth/Auth";
 import Profile from "./views/Profile/Profile";
-import { UserProvider } from "./context/UserCtx";
+import { UserProvider, useUser } from "./context/UserCtx";
 import ConfirmEmail from "./views/Auth/Confirm";
 import ProfileSettings from "./views/Settings/ProfileSettings";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import { ProfileProvider } from "./context/ProfileCtx";
+// import { ProfileProvider } from "./context/ProfileCtx";
 import Home from "./views/Home/Home";
 
 export default function App() {
   return (
     <>
-    <UserProvider>
-      <ProfileProvider>
+      {/* <ProfileProvider> */}
         <Router>
+          <UserProvider>
           <Header />
           <main>
             <Switch>
               <Route exact path= '/'>
-                <Home />
+                <Home authRequired/>
               </Route>
               <Route path='/register'>
                 <Auth registerRequired/>
@@ -31,6 +31,9 @@ export default function App() {
                 <ConfirmEmail />
               </Route>
               //protected
+              <PrivateRoute path='/home'>
+                <Home />
+              </PrivateRoute>
               <PrivateRoute path='/create'>
                 <ProfileSettings />
               </PrivateRoute>
@@ -42,9 +45,9 @@ export default function App() {
               </PrivateRoute>
             </Switch>
           </main>
+          </UserProvider>
         </Router>
-      </ProfileProvider>
-    </UserProvider>
+      {/* </ProfileProvider> */}
     </>
   )
 }

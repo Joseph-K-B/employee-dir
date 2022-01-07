@@ -3,13 +3,11 @@ import { useHistory } from "react-router-dom";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { useUser } from "../../context/UserCtx";
 import { getUser, signInUser, signUpUser } from "../../services/users";
-import { getProfile } from '../../services/profiles'
-import { useProfile } from "../../context/ProfileCtx";
+import { getProfile } from '../../services/profiles';
 
 function Auth({ registerRequired = false }) {
   const history = useHistory();
   const { user, setUser } = useUser();
-  // const {profile, setProfile} = useProfile();
 
  
   const handleSubmit = async (email, password) => {
@@ -19,16 +17,17 @@ function Auth({ registerRequired = false }) {
         history.replace('/confirm-email');
       } else {
         const user = await signInUser(email, password);
-        await setUser({id: user.id, email});
-        const profile = await getProfile();
-        await setUser(profile);
-        user.name ? history.push('/profile') : history.push('/create')
-        console.log(getProfile())
+        await setUser({profile: false, id: user.id, email});
       }
+      // const profile = await getProfile();
+      // await setUser({profile: true, ...profile})
+      history.push('/profile')
     } catch(err) {
       throw err;
     }
-    };
+  };
+  // user ? history.push('/profile') : history.push('/create')
+  // console.log(user.profile)
     
   return (
     <>

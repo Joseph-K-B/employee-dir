@@ -10,7 +10,6 @@ function AuthForm({ onSubmit }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = formState;
-
     try {
       if(!email || password.length < 8)
         throw new Error('Please enter valid email and password greater than 8 characters'
@@ -20,6 +19,8 @@ function AuthForm({ onSubmit }) {
       setFormError(err.message);
     }
   };
+
+  console.log(formState);
   // const register = false
   return (
     <form onSubmit={handleSubmit}>

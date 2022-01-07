@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { useProfile } from "../../context/ProfileCtx";
 import { useUser } from "../../context/UserCtx";
 import useForm from "../../hooks/useForm";
-import { getProfile } from "../../services/profiles";
 import css from './ProfileForm.css';
 
 
 function ProfileForm({onSubmit}) {
-  const [isActive, setActive] = useState(false);
+  const [isActive, setActive] = useState(true);
   const [create, setCreate] = useState(true);
   const location = useLocation();
   const history = useHistory();
-  const { user, setUser } = useUser();
-  // const { profile, setProfile } = useProfile();
+  const { user, setUser, profile } = useUser();
   const {formState, handleFormChange, formError, setFormError} = useForm({
     name: '',
     email: user.email,
     bio: '',
     birthday: '',
   });
+
+  // console.log(location)
+
+  useEffect(() => {
+    if(user.name) {
+      setCreate(false);
+    }
+  },[])
+
+  console.log(formState)
           
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await onSubmit(formState);
+      setProfile(formState)
     } catch (err) {
       setFormError(err.message);
     }
@@ -47,7 +55,8 @@ function ProfileForm({onSubmit}) {
   
   return(
     <>
-      <form onSubmit={handleSubmit} className={css.profForm}>
+      <form onSubmit={handleSubmit} className={css.profForm} autoComplete="true">
+      <h1>{create ? 'Create Profile' : 'Edit Profile'}</h1>
         <h3>{user.email}</h3>
         <section className={css.profFormSect}>
           <label htmlFor="name">Name:</label>
@@ -56,7 +65,6 @@ function ProfileForm({onSubmit}) {
             name="name"
             value={formState.name}
             onChange={handleFormChange}
-            placeholder={user.name ? `${user.name}` : null}
             />
         </section>
         <section className={css.profFormSect}>
@@ -76,13 +84,12 @@ function ProfileForm({onSubmit}) {
             name="bio"
             value={formState.bio}
             onChange={handleFormChange}
-            placeholder={user.name ? `${user.bio}` : null}
           />
         </section>
-        <button type='submit'>{user.name ? 'Edit' : 'Create'}</button>
+        <button type='submit'>Submit</button>
         {formError && <p>{formError}</p>}
       </form>
-      {/* <button onClick={() => console.log('CLICK ON PROF FORM', user, profile)}>Test</button> */}
+      <button onClick={() => console.log('CLICK ON PROF FORM', 'ACTIVE USER', user,  'ACTIVE PROFILE', profile)}>Test</button>
   </>
   )
 }

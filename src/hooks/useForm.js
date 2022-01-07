@@ -15,6 +15,7 @@ function useForm(inputs = {}) {
     });
   };
 
+
   return { formState, formError, setFormError, handleFormChange};
 }
 
