@@ -34,23 +34,19 @@ function Header() {
           <NavLink to='/login'>Log in</NavLink>
           </nav>
         </>
-        
-        )
-          :
-       ( 
+        ) : (
         <>
-        <h4>You are signed in as {user.email}</h4>
-        <nav>
-        <NavLink to='/profile' >Profile</NavLink> 
-        <NavLink to='/settings'>Settings</NavLink> 
-        <NavLink to='/' onClick={handleLogOut}>Log Out</NavLink> 
-        {/* <button to='/' onClick={handleLogOut}>Log Out</button> */}
-        </nav>
-      </> 
+          <h4>You are signed in as {user.email}</h4>
+          <nav>
+          <NavLink to='/profile' >Profile</NavLink> 
+          <NavLink to='/settings'>Settings</NavLink> 
+          <NavLink to='/' onClick={handleLogOut}>Log Out</NavLink>
+          </nav>
+        </> 
         ) }
       </section>
     </header>
-  )
-}
+  );
+};
 
 export default Header;
